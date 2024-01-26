@@ -27,6 +27,14 @@ namespace ChessBot.Board
         public ulong AllPieces;
         public ulong EmptySquares;
 
+        public bool IsWhiteToMove;
+        public int MoveColour => IsWhiteToMove ? 0 : 1;
+
+        public ulong[] ColourBitboards;
+
+        public ulong FriendlyPieces;
+        public ulong EnemyPieces;
+
         public Board() 
         {
             InitalizeBoard();
@@ -55,6 +63,10 @@ namespace ChessBot.Board
             BlackPieces = BlackPawns | BlackKnights | BlackBishops | BlackRooks | BlackQueens | BlackKing;
             AllPieces = WhitePieces | BlackPieces;
             EmptySquares = ~AllPieces;
+            ColourBitboards[0] = WhitePieces;
+            ColourBitboards[1] = BlackPieces;
+            FriendlyPieces = ColourBitboards[MoveColour];
+            EnemyPieces = ColourBitboards[1 - MoveColour];
         }
 
     }

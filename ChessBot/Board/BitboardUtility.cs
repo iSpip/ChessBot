@@ -10,6 +10,8 @@ namespace ChessBot.Board
     public class BitboardUtility
     {
         public static readonly ulong[] KnightAttacks;
+        public static readonly ulong[] OrthoAttacks;
+        public static readonly ulong[] DiagAttacks;
         public static readonly ulong[] KingMoves;
         public static readonly ulong[] WhitePawnAttacks;
         public static readonly ulong[] BlackPawnAttacks;
@@ -17,6 +19,8 @@ namespace ChessBot.Board
         static BitboardUtility()
         {
             KnightAttacks = new ulong[64];
+            OrthoAttacks= new ulong[64];
+            DiagAttacks= new ulong[64];
             KingMoves = new ulong[64];
             WhitePawnAttacks = new ulong[64];
             BlackPawnAttacks = new ulong[64];
@@ -37,6 +41,17 @@ namespace ChessBot.Board
             {
                 int squareIndex = y * 8 + x;
 
+                // Knight jumps
+                for (int i = 0; i < knightJumps.Length; i++)
+                {
+                    int knightX = x + knightJumps[i].x;
+                    int knightY = y + knightJumps[i].y;
+                    if (ValidSquareIndex(knightX, knightY, out int knightTargetSquare))
+                    {
+                        KnightAttacks[squareIndex] |= 1ul << knightTargetSquare;
+                    }
+                }
+
                 for (int dirIndex = 0; dirIndex < 4; dirIndex++)
                 {
                     // Orthogonal and diagonal directions
@@ -53,6 +68,8 @@ namespace ChessBot.Board
                             {
                                 KingMoves[squareIndex] |= 1ul << orthoTargetIndex;
                             }
+
+                            OrthoAttacks[squareIndex] |= 1ul << orthoTargetIndex;
                         }
 
                         if (ValidSquareIndex(diagX, diagY, out int diagTargetIndex))
@@ -61,19 +78,12 @@ namespace ChessBot.Board
                             {
                                 KingMoves[squareIndex] |= 1ul << diagTargetIndex;
                             }
+
+                            DiagAttacks[squareIndex] |= 1ul << diagTargetIndex;
                         }
                     }
 
-                    // Knight jumps
-                    for (int i = 0; i < knightJumps.Length; i++)
-                    {
-                        int knightX = x + knightJumps[i].x;
-                        int knightY = y + knightJumps[i].y;
-                        if (ValidSquareIndex(knightX, knightY, out int knightTargetSquare))
-                        {
-                            KnightAttacks[squareIndex] |= 1ul << knightTargetSquare;
-                        }
-                    }
+                    
 
                     // Pawn attacks
 
