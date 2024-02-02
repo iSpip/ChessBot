@@ -5,8 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessBot"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="600">
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="BoardGrid"
+              MouseLeftButtonDown="BoardGrid_LeftMouseDown"
+              Grid.Row="1"
+              Grid.Column="1">
+            
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/BoardImage.png"/>
+            </Grid.Background>
+
+            <UniformGrid x:Name="PieceGrid"
+                     Rows="8"
+                     Columns="8"
+                     RenderOptions.BitmapScalingMode="HighQuality">
+
+
+            </UniformGrid>
+        </Grid>
+        
 
     </Grid>
 </Window>

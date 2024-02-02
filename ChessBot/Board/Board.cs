@@ -32,6 +32,7 @@ namespace ChessBot.Board
 
         public ulong[] ColourBitboards;
 
+
         public ulong FriendlyPieces;
         public ulong EnemyPieces;
 
@@ -67,6 +68,26 @@ namespace ChessBot.Board
             ColourBitboards[1] = BlackPieces;
             FriendlyPieces = ColourBitboards[MoveColour];
             EnemyPieces = ColourBitboards[1 - MoveColour];
+        }
+
+        public int PieceOnSquare(int square)
+        {
+            if (BitboardUtility.KBitIsOne(WhitePawns, square)) { return 1; }
+            else if (BitboardUtility.KBitIsOne(WhiteKnights, square)) { return 2; }
+            else if (BitboardUtility.KBitIsOne(WhiteBishops, square)) { return 3; }
+            else if (BitboardUtility.KBitIsOne(WhiteRooks, square)) { return 4; }
+            else if (BitboardUtility.KBitIsOne(WhiteQueens, square)) { return 5; }
+            else if (BitboardUtility.KBitIsOne(WhiteKing, square)) { return 6; }
+
+            else if (BitboardUtility.KBitIsOne(BlackPawns, square)) { return 9; }
+            else if (BitboardUtility.KBitIsOne(BlackKnights, square)) { return 10; }
+            else if (BitboardUtility.KBitIsOne(BlackBishops, square)) { return 11; }
+            else if (BitboardUtility.KBitIsOne(BlackRooks, square)) { return 12; }
+            else if (BitboardUtility.KBitIsOne(BlackQueens, square)) { return 13; }
+            else if (BitboardUtility.KBitIsOne(BlackKing, square)) { return 14; }
+
+            return 0;
+
         }
 
     }

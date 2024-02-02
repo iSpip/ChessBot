@@ -124,5 +124,12 @@ namespace ChessBot.Board
             return i;
         }
 
+        public static bool KBitIsOne(ulong bitboard, int k)
+        {
+            ulong shifted = bitboard >> k;
+
+            return (shifted & 1) == 1;
+        }
+
     }
 }

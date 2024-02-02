@@ -7,4 +7,36 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\BoardImage.PNG" />
+    <None Remove="Assets\pieceImages\1.png" />
+    <None Remove="Assets\pieceImages\10.png" />
+    <None Remove="Assets\pieceImages\11.png" />
+    <None Remove="Assets\pieceImages\12.png" />
+    <None Remove="Assets\pieceImages\13.png" />
+    <None Remove="Assets\pieceImages\14.png" />
+    <None Remove="Assets\pieceImages\2.png" />
+    <None Remove="Assets\pieceImages\3.png" />
+    <None Remove="Assets\pieceImages\4.png" />
+    <None Remove="Assets\pieceImages\5.png" />
+    <None Remove="Assets\pieceImages\6.png" />
+    <None Remove="Assets\pieceImages\9.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\BoardImage.PNG" />
+    <Resource Include="Assets\pieceImages\1.png" />
+    <Resource Include="Assets\pieceImages\10.png" />
+    <Resource Include="Assets\pieceImages\11.png" />
+    <Resource Include="Assets\pieceImages\12.png" />
+    <Resource Include="Assets\pieceImages\13.png" />
+    <Resource Include="Assets\pieceImages\14.png" />
+    <Resource Include="Assets\pieceImages\2.png" />
+    <Resource Include="Assets\pieceImages\3.png" />
+    <Resource Include="Assets\pieceImages\4.png" />
+    <Resource Include="Assets\pieceImages\5.png" />
+    <Resource Include="Assets\pieceImages\6.png" />
+    <Resource Include="Assets\pieceImages\9.png" />
+  </ItemGroup>
+
 </Project>

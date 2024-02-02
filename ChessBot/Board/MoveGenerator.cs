@@ -53,7 +53,7 @@ namespace ChessBot.Board
             while (orthoSliders != 0)
             {
                 int startSquare = BitboardUtility.PopLSB(ref orthoSliders); /// Renvoie l'index de la case du plus petit bit ou il y a un cavalier, et met le bit à 0
-                ulong moveSquares = BitboardUtility.KnightAttacks[startSquare] & moveMask; /// Intersection des cases atteignables par le cavalier et les cases non occupées par des pièces alliées
+                ulong moveSquares = BitboardUtility.OrthoAttacks[startSquare] & moveMask; /// Intersection des cases atteignables par le cavalier et les cases non occupées par des pièces alliées
 
                 while (moveSquares != 0)
                 {
@@ -65,7 +65,7 @@ namespace ChessBot.Board
             while (diagonalSliders != 0)
             {
                 int startSquare = BitboardUtility.PopLSB(ref diagonalSliders); /// Renvoie l'index de la case du plus petit bit ou il y a un cavalier, et met le bit à 0
-                ulong moveSquares = BitboardUtility.KnightAttacks[startSquare] & moveMask; /// Intersection des cases atteignables par le cavalier et les cases non occupées par des pièces alliées
+                ulong moveSquares = BitboardUtility.DiagAttacks[startSquare] & moveMask; /// Intersection des cases atteignables par le cavalier et les cases non occupées par des pièces alliées
 
                 while (moveSquares != 0)
                 {
@@ -73,6 +73,23 @@ namespace ChessBot.Board
                     moves[currMoveIndex++] = new Move(startSquare, targetSquare); /// Crée le coup correspondant
                 }
             }
+        }
+
+        public void GenerateKingMoves(System.Span<Move> moves)
+        {
+            ulong friendlyKingSquare;
+            ulong opponentAttackMap;
+            if (gameState.IsWhiteTurn) { friendlyKingSquare = board.WhiteKing; }
+            else { friendlyKingSquare = board.WhiteKing; }
+
+            //ulong legalMask = ~(opponentAttackMap | board.FriendlyPieces);
+            //ulong kingMoves = BitboardUtility.KingMoves[friendlyKingSquare] & legalMask;
+
+            //while (kingMoves != 0)
+            //{
+            //    int targetSquare = BitboardUtility.PopLSB(ref kingMoves);
+            //    moves[currMoveIndex++] = new Move(friendlyKingSquare, targetSquare);
+            //}
         }
 
 
