@@ -13,6 +13,18 @@ namespace ChessBot.Board
         Board board;
         GameState gameState;
         int currMoveIndex = 0;
+        public int MaxMoves = 218;
+
+        public void GeneratePossibleMoves(ref Span<Move> moves)
+        {
+            GeneratePawnMoves();
+            GenerateKnightMoves(moves);
+            GenerateSlidingMoves(moves);
+            GenerateKingMoves(moves);
+
+            moves = moves.Slice(0, currMoveIndex);
+
+        }
 
         public void GeneratePawnMoves() { }
 

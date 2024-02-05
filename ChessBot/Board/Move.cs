@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChessBot.Board
 {
-    public readonly struct Move
+    public readonly struct Move : IEquatable<Move>
     {
         // 16bit move value
         readonly ushort moveValue;
@@ -73,6 +73,10 @@ namespace ChessBot.Board
         public static Move NullMove => new Move(0);
         public static bool SameMove(Move a, Move b) => a.moveValue == b.moveValue;
 
+        public bool Equals(Move other)
+        {
+            return moveValue == other.moveValue;
+        }
 
     }
 }
