@@ -18,12 +18,12 @@ namespace ChessBot
             { 4, LoadImage("Assets/pieceImages/4.png")},
             { 5, LoadImage("Assets/pieceImages/5.png")},
             { 6, LoadImage("Assets/pieceImages/6.png")},
+            { 7, LoadImage("Assets/pieceImages/7.png")},
+            { 8, LoadImage("Assets/pieceImages/8.png")},
             { 9, LoadImage("Assets/pieceImages/9.png")},
             { 10, LoadImage("Assets/pieceImages/10.png")},
             { 11, LoadImage("Assets/pieceImages/11.png")},
-            { 12, LoadImage("Assets/pieceImages/12.png")},
-            { 13, LoadImage("Assets/pieceImages/13.png")},
-            { 14, LoadImage("Assets/pieceImages/14.png")}
+            { 12, LoadImage("Assets/pieceImages/12.png")}
         };
 
         private static ImageSource LoadImage(string filePath)

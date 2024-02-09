@@ -15,12 +15,18 @@ namespace ChessBot.Board
 
         public int ColorToPlay => IsWhiteTurn? 1 : 0;
 
+        public bool IsCheckmate;
+
+        public bool IsGameOver;
+
         public CastleRights CastleRights { get; set; }
 
         public GameState() 
         {
             Board = new Board();
             IsWhiteTurn = true;
+            IsCheckmate= false;
+            IsGameOver= false;
             CastleRights = new CastleRights();
         }
 

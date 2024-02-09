@@ -28,7 +28,8 @@ namespace ChessBot
         private readonly Image[,] pieceImages= new Image[8, 8];
         private int? selectedSquare = null;
         private double squareSize = 500/8;
-        
+        private List<Move> validMoves = new List<Move>();
+
 
         public MainWindow()
         {
@@ -39,8 +40,32 @@ namespace ChessBot
             moveGenerator = new MoveGenerator();
             
             DrawBoard(gameState);
-            Span<Move> moves = new Move[moveGenerator.MaxMoves];
-            moveGenerator.GeneratePossibleMoves(ref moves);
+
+            GetMoves();
+        }
+
+        private async void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            GameLoop();
+        }
+
+        private async Task GameLoop()
+        {
+            while (!gameState.IsGameOver) 
+            {
+                await Task.Delay(100);
+            }
+        }
+
+        private void GetMoves()
+        {
+            validMoves.Clear();
+            var generatedMoves = moveGenerator.GeneratePossibleMoves(gameState.Board, gameState);
+            for (int i = 0; i < generatedMoves.Length; i++)
+            {
+                validMoves.Add(generatedMoves[i]);
+            }
+            Debug.WriteLine("Nb of possible moves : " + generatedMoves.Length);
         }
 
         private void InitializeBoard()
@@ -65,11 +90,9 @@ namespace ChessBot
                 for (int c = 0; c < 8; c++)
                 {
                     int piece = boardMatrix[r, c];
-                    Debug.Write(piece + " ");
 
-                    pieceImages[r, c].Source = Images.GetImage(piece);
+                    pieceImages[7-r, c].Source = Images.GetImage(piece);
                 }
-                Debug.WriteLine("");
             }
         }
 
@@ -81,36 +104,53 @@ namespace ChessBot
             {
                 for (int c = 0; c < 8; c++)
                 {
-                    board[7 - r, c] = gameState.Board.PieceOnSquare(8 * r + c);
+                    board[7 - r, c] = gameState.Board.PieceOnSquare(8 * (7 - r) + c);
+                    Debug.Write(board[7 - r, c] + "");
                 }
+                Debug.WriteLine("");
             }
 
             return board;
         }
 
-        private void BoardGrid_LeftMouseDown(object sender, MouseButtonEventArgs e, Span<Move> moves)
+        private void BoardGrid_LeftMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point point = e.GetPosition(BoardGrid);
-            int row = (int)(7 - point.Y / squareSize);
+            int row = 7 - (int)(point.Y / squareSize);
             int col = (int)(point.X / squareSize);
-            Debug.WriteLine(row + " " + col);
-            if (selectedSquare.HasValue)
+
+            if (selectedSquare.HasValue) /// Player clicked on a second square
             {
                 int startSquare = selectedSquare.Value;
-                selectedSquare = row * 7 + col;
-                int endSquare = row * 7 + col;
+                int endSquare = row * 8 + col;
+                selectedSquare = endSquare;
+                
                 Move move = new Move(startSquare, endSquare);
 
-                if (moves.Contains(move))
+                if (IsValidMove(move)) /// Move in in valid moves
                 {
-                    Debug.WriteLine("OK");
+                    Debug.WriteLine("valid move");
+                    gameState.Board.MakeMove(move);
+                    DrawBoard(gameState);
+                    GetMoves();
                 }
+                
             }
 
             else
             {
-                selectedSquare = row * 7 + col;
+                selectedSquare = row * 8 + col;
             }
+        }
+
+        private bool IsValidMove(Move move)
+        {
+            if (validMoves.Contains(move))
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }

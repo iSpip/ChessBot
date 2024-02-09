@@ -9,7 +9,7 @@ namespace ChessBot.Board
     public readonly struct Move : IEquatable<Move>
     {
         // 16bit move value
-        readonly ushort moveValue;
+        readonly ushort moveValue; /// Was readonly
 
         // Flags
         public const int NoFlag = 0b0000;

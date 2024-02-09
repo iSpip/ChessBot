@@ -117,6 +117,26 @@ namespace ChessBot.Board
             }
         }
 
+        public static void ToggleSquare(ref ulong bitboard, int squareIndex)
+        {
+            bitboard ^= 1ul << squareIndex;
+        }
+
+        public static ulong ToggleSquare2(ref ulong bitboard, int squareIndex)
+        {
+            return bitboard ^= 1ul << squareIndex;
+        }
+
+        public static void ToggleSquares(ref ulong bitboard, int squareA, int squareB) /// XOR operation on the bitboard at rank squareA and squareB
+        {
+            bitboard ^= (1ul << squareA | 1ul << squareB);
+        }
+
+        public static ulong ToggleSquares2(ulong bitboard, int squareA, int squareB) /// XOR operation on the bitboard at rank squareA and squareB
+        {
+            return bitboard ^= (1ul << squareA | 1ul << squareB);
+        }
+
         public static int PopLSB(ref ulong b)
         {
             int i = BitOperations.TrailingZeroCount(b);

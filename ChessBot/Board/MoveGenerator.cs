@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,15 +9,28 @@ namespace ChessBot.Board
 {
     public class MoveGenerator
     {
-        public MoveGenerator() { }
 
         Board board;
         GameState gameState;
         int currMoveIndex = 0;
-        public int MaxMoves = 218;
+        public const int MaxMoves = 218;
 
-        public void GeneratePossibleMoves(ref Span<Move> moves)
+        public MoveGenerator()
         {
+        }
+
+        public Span<Move> GeneratePossibleMoves(Board board, GameState gameState)
+        {
+            Span<Move> moves = new Move[MaxMoves];
+            GeneratePossibleMoves(board, gameState, ref moves);
+            return moves;
+        }
+
+        public void GeneratePossibleMoves(Board board, GameState gameState, ref Span<Move> moves)
+        {
+            this.board = board;
+            this.gameState = gameState;
+
             GeneratePawnMoves();
             GenerateKnightMoves(moves);
             GenerateSlidingMoves(moves);
@@ -31,12 +45,11 @@ namespace ChessBot.Board
         public void GenerateKnightMoves(System.Span<Move> moves) 
         {
             ulong knights;
-
             if (gameState.IsWhiteTurn) { knights = board.WhiteKnights; }
 
             else { knights = board.BlackKnights; }
 
-            ulong moveMask = board.EnemyPieces & board.EmptySquares; /// Masque des cases où il n'y a pas de pièce alliée
+            ulong moveMask = board.EnemyPieces | board.EmptySquares; /// Masque des cases où il n'y a pas de pièce alliée
 
             while (knights != 0)
             {

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessBot"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
+        Title="MainWindow" Height="600" Width="600"
+        Loaded="WindowLoaded"
+        WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -21,7 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="BoardGrid"
-              MouseLeftButtonDown="BoardGrid_LeftMouseDown"
+              MouseDown="BoardGrid_LeftMouseDown"
               Grid.Row="1"
               Grid.Column="1">
             
