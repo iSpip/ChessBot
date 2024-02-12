@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessBot.Board.Magics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -45,9 +46,9 @@ namespace ChessBot.Board
         public void GenerateKnightMoves(System.Span<Move> moves) 
         {
             ulong knights;
-            if (gameState.IsWhiteTurn) { knights = board.WhiteKnights; }
+            if (gameState.IsWhiteTurn) { knights = board.piecesList[1]; }
 
-            else { knights = board.BlackKnights; }
+            else { knights = board.piecesList[7]; }
 
             ulong moveMask = board.EnemyPieces | board.EmptySquares; /// Masque des cases où il n'y a pas de pièce alliée
 
@@ -69,16 +70,16 @@ namespace ChessBot.Board
             ulong orthoSliders;
             ulong diagonalSliders;
 
-            if (gameState.IsWhiteTurn) { orthoSliders = board.WhiteRooks | board.WhiteQueens; diagonalSliders = board.WhiteBishops | board.WhiteQueens; }
+            if (gameState.IsWhiteTurn) { orthoSliders = board.piecesList[3] | board.piecesList[4]; diagonalSliders = board.piecesList[2] | board.piecesList[4]; }
 
-            else { orthoSliders = board.BlackRooks | board.BlackQueens; diagonalSliders = board.BlackBishops | board.BlackQueens; }
+            else { orthoSliders = board.piecesList[9] | board.piecesList[10]; diagonalSliders = board.piecesList[8] | board.piecesList[10]; }
 
             ulong moveMask = board.EnemyPieces & board.EmptySquares; /// Masque des cases où il n'y a pas de pièce alliée
 
             while (orthoSliders != 0)
             {
-                int startSquare = BitboardUtility.PopLSB(ref orthoSliders); /// Renvoie l'index de la case du plus petit bit ou il y a un cavalier, et met le bit à 0
-                ulong moveSquares = BitboardUtility.OrthoAttacks[startSquare] & moveMask; /// Intersection des cases atteignables par le cavalier et les cases non occupées par des pièces alliées
+                int startSquare = BitboardUtility.PopLSB(ref orthoSliders);
+                ulong moveSquares = Magic.GetRookAttacks(startSquare, board.AllPieces) & moveMask;
 
                 while (moveSquares != 0)
                 {
@@ -90,7 +91,7 @@ namespace ChessBot.Board
             while (diagonalSliders != 0)
             {
                 int startSquare = BitboardUtility.PopLSB(ref diagonalSliders); /// Renvoie l'index de la case du plus petit bit ou il y a un cavalier, et met le bit à 0
-                ulong moveSquares = BitboardUtility.DiagAttacks[startSquare] & moveMask; /// Intersection des cases atteignables par le cavalier et les cases non occupées par des pièces alliées
+                ulong moveSquares = Magic.GetBishopAttacks(startSquare, board.AllPieces) & moveMask;
 
                 while (moveSquares != 0)
                 {

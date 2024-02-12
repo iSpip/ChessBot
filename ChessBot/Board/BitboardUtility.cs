@@ -137,6 +137,16 @@ namespace ChessBot.Board
             return bitboard ^= (1ul << squareA | 1ul << squareB);
         }
 
+        public static void SetSquare(ref ulong bitboard, int squareIndex)
+        {
+            bitboard |= 1ul << squareIndex;
+        }
+
+        public static bool ContainsSquare(ulong bitboard, int square)
+        {
+            return ((bitboard >> square) & 1) != 0;
+        }
+
         public static int PopLSB(ref ulong b)
         {
             int i = BitOperations.TrailingZeroCount(b);
